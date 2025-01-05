@@ -25,7 +25,7 @@ To run a single test: name the test:
 2. Terminal (first) for running the server:
     - npx http-server *folder/location/to/html/file* -p 8080 (e.g. npx http-server app -p 8080)
 3. Terminal (second) with tests run:
-- npx playwright test
+    - npx playwright test
 4. YAML file - add code to jobs - test - steps:
     - name: Start static server \
       run: npx http-server *folder/location/to/html/file* -p 8080 &
@@ -91,7 +91,6 @@ To run a single test: name the test:
 
 
 ### Test suite with test.describe()
-https://playwright.dev/docs/api/class-test#test-describe \
     test.describe('two tests', () => {
       test('Group one', async ({ page }) => {
         // ...
@@ -101,6 +100,7 @@ https://playwright.dev/docs/api/class-test#test-describe \
         // ...
       });
     });
+- https://playwright.dev/docs/api/class-test#test-describe 
 
 
 ### Extending timeout for a single test:
@@ -171,18 +171,18 @@ Getting the response from POST method:
 https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110810#questions/18040366
 
 - with method 1 (without using request fixture - must import request from library):
-    - const apiContext = await request.newContext();
-    - var response = await apiContext.post(
-          "*url*",
-          {
-              data: {*orders: [{ country: country, productOrderedId: productId }]*},  // form from API call on the Inspect -> Network >> POST for given API call >> Request body
-              headers: {
-                  "Authorization": token,             // check in Inspect -> Network >> POST for create-order >> Headers >> look where token goes; token value from previous API call
-                  "Content-Type": "application/json"  // check in Inspect -> Network >> POST for given API call >> Headers >> look for content-type used
-              }
-          },
-      );
-    - // then create var with response body and extract order ID from response body
+      - const apiContext = await request.newContext();
+      - var response = await apiContext.post(
+            "*url*",
+            {
+                data: {*orders: [{ country: country, productOrderedId: productId }]*},  // form from API call on the Inspect -> Network >> POST for given API call >> Request body
+                headers: {
+                    "Authorization": token,             // check in Inspect -> Network >> POST for create-order >> Headers >> look where token goes; token value from previous API call
+                    "Content-Type": "application/json"  // check in Inspect -> Network >> POST for given API call >> Headers >> look for content-type used
+                }
+            },
+        );
+      - // then create var with response body and extract order ID from response body
 
 
 ### 4. Extracting response body:
@@ -192,16 +192,16 @@ Extracting body in JSON format:
 - method 2:
     - const responseBody = await response.json(); 
 
-### Inserting token to the local page storage in the test
+### 5. Inserting token to the local page storage in the test
 https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110780#questions/18040366
 
 - NOTE: To insert token, we must first extract it from API call and save it as a global variable \
 - To insert js function with the token use code: \
-      await page.addInitScript(value => {
-          window.localStorage.setItem("token", value);
-      },
+        await page.addInitScript(value => {
+              window.localStorage.setItem("token", value);
+          },
           token
-      );
+        );
 - NOTE: "token" may have different name (bearerToken, authorization etc.) - verify first in the browser Application / ask developer
 - NOTE: token may be placed in different storage (like: window.sessionStorage.setItem("token", value)) - verify first in the browser Application / ask developer
 
@@ -256,9 +256,10 @@ https://playwright.dev/docs/locators
 
 ### Filters
 __Instead of using for loop for iterating over lists__ 
+    - await page.locator("*app-card*").filter({ hasText: "*Nokia Edge*" }).getByRole("button", { name: "*Add*" }).click();
 - see: 05_getby_locator (last part), 
 - section 8 (udemy) - https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/39602656#overview
-    - await page.locator("*app-card*").filter({ hasText: "*Nokia Edge*" }).getByRole("button", { name: "*Add*" }).click();
+
 
 ### Locator methods:
     - .fill("text")             - to enter text to the field
@@ -303,7 +304,7 @@ __Instead of using for loop for iterating over lists__
 
 
 ## JAVA popup (dialog) window
-__NOTE: only after setting the listener first we can click on button that will trigger that action! (not before)__ \
+- __NOTE: only after setting the listener first we can click on button that will trigger that action! (not before)__ \
     - page.on();                                      - will listen for specified events and will be notified when that event occure
     - page.on("dialog", dialog => dialog.accept());   - here we are listening for dialog event to occur (popup window to show up), so we use listener on "dialog"; then we want to click on OK button, so we need to use the accept method like this:  dialog => dialog.accept()
     - page.on("dialog", dialog => dialog.dismiss());  - if we want to click on Cancel button we need to use method .dismiss()
