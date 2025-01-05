@@ -238,7 +238,6 @@ See: https://playwright.dev/docs/writing-tests
 
 
 ### Page locators:
-https://playwright.dev/docs/locators
     - await page.getByRole("*role*", {name: "*text*"});
     - await page.getByPlaceholder("*text*");
     - await page.getByText("*text*");
@@ -253,6 +252,7 @@ https://playwright.dev/docs/locators
                 [attribute*='partial value']   - * will look for partial fit (so I don't have to type [style='display: none'] only [style*='none'])
         - css -> parenttagname >> childtagname  - css with traversing from parent to child
         - "text=*text*"                         - if needs to write a locator based on text
+See: https://playwright.dev/docs/locators
 
 ### Filters
 __Instead of using for loop for iterating over lists__ 
