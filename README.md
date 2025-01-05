@@ -171,18 +171,18 @@ Getting the response from POST method:
 https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110810#questions/18040366
 
 - with method 1 (without using request fixture - must import request from library):
-      - const apiContext = await request.newContext();
-      - var response = await apiContext.post(
-            "*url*",
-            {
-                data: {*orders: [{ country: country, productOrderedId: productId }]*},  // form from API call on the Inspect -> Network >> POST for given API call >> Request body
-                headers: {
-                    "Authorization": token,             // check in Inspect -> Network >> POST for create-order >> Headers >> look where token goes; token value from previous API call
-                    "Content-Type": "application/json"  // check in Inspect -> Network >> POST for given API call >> Headers >> look for content-type used
-                }
-            },
-        );
-      - // then create var with response body and extract order ID from response body
+  - const apiContext = await request.newContext();
+  - var response = await apiContext.post(
+        "*url*",
+        {
+            data: {*orders: [{ country: country, productOrderedId: productId }]*},  // form from API call on the Inspect -> Network >> POST for given API call >> Request body
+            headers: {
+                "Authorization": token,             // check in Inspect -> Network >> POST for create-order >> Headers >> look where token goes; token value from previous API call
+                "Content-Type": "application/json"  // check in Inspect -> Network >> POST for given API call >> Headers >> look for content-type used
+            }
+        },
+    );
+  - // then create var with response body and extract order ID from response body
 
 
 ### 4. Extracting response body:
@@ -196,12 +196,12 @@ Extracting body in JSON format:
 https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110780#questions/18040366
 
 - NOTE: To insert token, we must first extract it from API call and save it as a global variable \
-- To insert js function with the token use code: \
-        await page.addInitScript(value => {
-              window.localStorage.setItem("token", value);
-          },
-          token
-        );
+- To insert js function with the token use code: 
+    - await page.addInitScript(value => {
+            window.localStorage.setItem("token", value);
+        },
+        token
+      );
 - NOTE: "token" may have different name (bearerToken, authorization etc.) - verify first in the browser Application / ask developer
 - NOTE: token may be placed in different storage (like: window.sessionStorage.setItem("token", value)) - verify first in the browser Application / ask developer
 
@@ -218,8 +218,6 @@ https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lectu
 ## Constructing test cases
 
 ### Page methods:
-https://playwright.dev/docs/writing-tests 
-
     - await page.goto("*url*");     - navigate to the page
     - await page.goBack();          - navigates to the previous page
     - await page.goForward();       - navigates to the next page
@@ -235,6 +233,8 @@ https://playwright.dev/docs/writing-tests
       -  page.on("dialog", dialog => dialog.dismiss());   - clicking on JAVA popup on CANCEL button
 
     - page.frameLocator();      - to switch to a child frame (use it as a const framePage = page.frameLocator("*some id or name*");) and then use framePage instead of page
+See: https://playwright.dev/docs/writing-tests 
+
 
 
 ### Page locators:
