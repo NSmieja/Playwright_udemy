@@ -192,6 +192,7 @@ Extracting body in JSON format:
 - method 2:
     - const responseBody = await response.json(); 
 
+
 ### 5. Inserting token to the local page storage in the test
 https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110780#questions/18040366
 
@@ -206,7 +207,34 @@ https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lectu
 - NOTE: token may be placed in different storage (like: window.sessionStorage.setItem("token", value)) - verify first in the browser Application / ask developer
 
 
+### Saving browser storage data into JSON file 
+https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/31110842#overview
+
+- NOTE! To be able to re-use browser storage data in tests we must save those data on browser context (not on page fixture)
+1. Create browser context and page (with browser fixuture)
+  - const context = await broswer.newContext();
+  - const page = await context.newPage();
+2. Login to the desired page through UI using created page, like e.g.:
+  - await page.goto("https://rahulshettyacademy.com/client");
+  - await page.locator("#userEmail").fill("*email*");
+  - await page.locator("#userPassword").fill("*password*");
+  - await page.locator("[value='Login']").click();
+  - await page.waitForLoadState('networkidle');
+3. Storage all data from browser after login in json file
+  - await context.storageState({path: "filepath/storage.json"});
+4. Create new browser context but with injested all storage data from json file (make sure it is a global variable)
+  - var webContext = await browser.newContext({ storageState: filepath/storage.json });
+5. Inside tests, instead of using page fixture create page that uses this browser context with injected storage data
+  - const page = await webContext.newPage();
+
+
+### Context methods:
+Note: const context = await browser.newContext();  // with the use of browser fixture \
+    - await context.newPage();                          - creates new page from browser context
+    - await context.storageState({path: "file.json"})   - will store all browser storage data in given file 
+
 ### Response methods:
+Note: const response = await request.method();  // with the use of request fixture \
     - response.ok();        - check if status code is 200 or 201 (T/F)
     - response.status();    - return status code
     - response.json();      - return response body in JSON format
